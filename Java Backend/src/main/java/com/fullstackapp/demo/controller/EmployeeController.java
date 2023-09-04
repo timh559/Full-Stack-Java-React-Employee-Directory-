@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import com.fullstackapp.demo.repository.EmployeeRepository;
@@ -36,9 +37,13 @@ public class EmployeeController {
     }
 
     @DeleteMapping("/{employeeId}")
-    public void deleteEmployee(@PathVariable Long employeeId) {
-        employeeRepository.deleteById(employeeId);
+    public ResponseEntity<HttpStatus> deleteEmployee(@PathVariable Long employeeId) {
+        Employee employee = employeeRepository.findById(employeeId)
+                .orElseThrow(() -> new ResourceNotFoundException("Employee does not exist"));
+        employeeRepository.delete(employee);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
     // get employee by id rest api
     @GetMapping("/{employeeId}")
     public ResponseEntity<Employee> getEmployeeById(@PathVariable Long employeeId) {
@@ -46,9 +51,11 @@ public class EmployeeController {
                 .orElseThrow(() -> new ResourceNotFoundException("Employee does not exist"));
         return ResponseEntity.ok(employee);
     }
+
     // update employee rest api
     @PutMapping("/{employeeId}/edit")
-    public ResponseEntity<Employee> updateEmployee(@PathVariable Long employeeId, @RequestBody Employee employeeDetails) {
+    public ResponseEntity<Employee> updateEmployee(@PathVariable Long employeeId,
+            @RequestBody Employee employeeDetails) {
 
         Employee employee = employeeRepository.findById(employeeId)
                 .orElseThrow(() -> new ResourceNotFoundException("Employee does not exist"));
