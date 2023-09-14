@@ -10,8 +10,9 @@ export default function Header({ className }) {
         title = "Employee";
       }
   return (
-    <Typography variant="h4" component="div" sx={{
-        textAlign: "center"
+    <Typography variant="h5" component="div" sx={{
+        textAlign: "center",
+        margin: "1%"
     }}>
         {title}
     </Typography>

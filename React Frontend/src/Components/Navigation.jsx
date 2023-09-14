@@ -14,11 +14,8 @@ export default function Navigation() {
     <Box>
       <AppBar position="fixed">
         <Toolbar>
-          <Typography variant="h6" component="div" sx={{
-            marginRight: "5%"
-            
-          }}>
-            Employee Directory
+          <Typography variant="h6" component="div">
+            T.S.Hutch
           </Typography>
           <Button 
             color="inherit"
@@ -31,9 +28,10 @@ export default function Navigation() {
           <Button 
             color="inherit"
             component={Link} to="/add-employee"
-            ><AddIcon />Add Employee</Button>
+            ><AddIcon />Employee</Button>
         </Toolbar>
       </AppBar>
+      <Toolbar />
     </Box>
   );
 }

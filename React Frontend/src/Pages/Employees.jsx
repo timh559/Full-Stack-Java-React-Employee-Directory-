@@ -16,7 +16,7 @@ export default function Employees() {
   return (
     <Box
       sx={{
-        margin: "10%",
+        margin: "5%",
         border: "1px solid black",
         borderRadius: "5%",
         display: "flex",
@@ -30,6 +30,7 @@ export default function Employees() {
           width: "50%",
           display: "flex",
           flexDirection: "column",
+          padding: "1%"
         }}
       >
         <EmployeeDirectory className="directory" />
@@ -39,6 +40,7 @@ export default function Employees() {
           width: "50%",
           display: "flex",
           flexDirection: "column",
+          padding: "1%"
         }}
       >
         <EmployeeDirectory className="employee" />

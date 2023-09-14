@@ -1,27 +1,36 @@
-import React, { useEffect, useState } from "react";
-import { Input, Button, Container, Typography, Box } from "@mui/material";
+import React, { useState } from "react";
+import { Input, Button, Container, Typography, Box, Alert } from "@mui/material";
 import { useNavigate, useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
-import { updateEmployee } from "../Redux/employeeSlice";
+import { fetchEmployeeById, updateEmployee } from "../Redux/employeeSlice";
 
 export default function UpdateEmployeeForm() {
-  // const id = useParams();
+  const status = useSelector((state) => state.employee.status);
   const selectedEmployee = useSelector(
     (state) => state.employee.selectedEmployee
   );
   console.log(selectedEmployee);
   const [employee, setEmployee] = useState(selectedEmployee);
+  const [message, setMessage] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  
 
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Update Employee")
     console.log(employee);
     dispatch(updateEmployee(employee));
-    setTimeout(() => {
-      navigate("/employees");
-    }, 500);
+    if (status === "succeeded") {
+      setMessage("Employee Updated Successfully, Redirecting...");
+      setTimeout(() => {
+        dispatch({ type: "employee/selectedEmployeeChanged", payload: null });
+        navigate("/employees");
+      }, 2000);
+    }
+    else if (status === "failed") {
+      setMessage("Employee Update Failed");
+    }
   };
 
   return (
@@ -45,8 +54,20 @@ export default function UpdateEmployeeForm() {
           marginBottom: 2,
         }}
       >
-        Add New Employee
+        Update Employee Info
       </Typography>
+      {message && (
+        <Alert
+          variant="filled"
+          severity={status === "failed" ? "error" : "success"}
+          sx={{
+            marginBottom: 2,
+            color: "white"
+          }}
+        >
+          {message}
+        </Alert>
+      )}
       <Box component="form">
         <Container
           sx={{
@@ -334,13 +355,13 @@ export default function UpdateEmployeeForm() {
             type="submit"
             variant="contained"
             color="success"
-            onClick={handleSubmit}
+            onSubmit={handleSubmit}
             sx={{ width: "40%" }}
           >
             Update Employee
           </Button>
           <Button
-            type="submit"
+            type="cancel"
             variant="contained"
             color="error"
             onClick={() => {

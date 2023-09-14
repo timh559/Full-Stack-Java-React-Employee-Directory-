@@ -3,8 +3,12 @@ import { Input, Button, Container, Typography, Box } from "@mui/material";
 import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
 import { addNewEmployee } from "../Redux/employeeSlice";
+import { useSelector } from "react-redux";
+import { Alert } from "@mui/material";
 
 export default function AddEmployeeForm() {
+  const [message, setMessage] = useState("");
+  const status = useSelector((state) => state.employee.status);
   const [employee, setEmployee] = useState({
     firstName: "",
     lastName: "",
@@ -21,9 +25,15 @@ export default function AddEmployeeForm() {
     e.preventDefault();
     console.log(employee);
     dispatch(addNewEmployee(employee));
-    setTimeout(() => {
-      navigate("/employees");
-    }, 500);
+    if (status === "succeeded") {
+      setMessage("Employee Added Successfully, Redirecting...");
+      setTimeout(() => {
+        navigate("/employees");
+      }, 2000);
+    }
+    else if (status === "failed") {
+      setMessage("Add Employee Failed");
+    }
   };
 
   return (
@@ -49,6 +59,18 @@ export default function AddEmployeeForm() {
       >
         Add New Employee
       </Typography>
+      {message && (
+        <Alert
+          variant="filled"
+          severity={status === "failed" ? "error" : "success"}
+          sx={{
+            marginBottom: 2,
+            color: "white"
+          }}
+        >
+          {message}
+        </Alert>
+      )}
       <Box component="form">
         <Container
           sx={{
@@ -336,13 +358,13 @@ export default function AddEmployeeForm() {
             type="submit"
             variant="contained"
             color="success"
-            onClick={handleSubmit}
+            onSubmit={handleSubmit}
             sx={{ width: "40%" }}
           >
             Add Employee
           </Button>
           <Button
-            type="submit"
+            type="cancel"
             variant="contained"
             color="error"
             onClick={() => {

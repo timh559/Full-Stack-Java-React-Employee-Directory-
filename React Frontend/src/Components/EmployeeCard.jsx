@@ -27,12 +27,13 @@ export default function EmployeeCard() {
             display: "flex",
             flexDirection: "column",
             backgroundColor: "rgba(0,0,0,0.05)",
-            color: "black",
-            margin: "2% 5%",
+            color: "black"
           }}
         >
           <CardContent>
-            <Typography variant="h5" component="div">
+            <Typography variant="h6" component="div" style={{
+                textAlign: "center"
+            }}>
               No Employee Selected
             </Typography>
           </CardContent>
@@ -41,15 +42,15 @@ export default function EmployeeCard() {
     );
   } else {
     return (
-      <div>
+      <div style={{
+        overflow: "scroll"
+        }}>
         <Card
           sx={{
             display: "flex",
             flexDirection: "column",
             backgroundColor: "rgba(0,0,0,0.05)",
-            color: "black",
-            margin: "2% 5%",
-            maxHeight: "100%",
+            color: "black"
           }}
         >
           <Box

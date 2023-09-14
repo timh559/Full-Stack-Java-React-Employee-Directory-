@@ -98,13 +98,12 @@ const employeeSlice = createSlice({
         })
         .addCase(updateEmployee.fulfilled, (state, action) => {
             console.log(action.payload);
-            const index = state.employees.findIndex(
-                (employee) => employee.id === action.payload.id
-            );
-            state.employees[index] = action.payload;
+            // const index = state.employees.findIndex(
+            //     (employee) => employee.id === action.payload.id);
+            // state.employees[index] = action.payload;
             state.status = 'succeeded';
             console.log(state.employees);
-            window.location.reload(true);
+            // window.location.reload(true);
         })
         .addCase(updateEmployee.rejected, (state, action) => {
             state.status = 'failed';
