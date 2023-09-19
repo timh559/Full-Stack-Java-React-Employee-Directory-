@@ -1,10 +1,8 @@
 import React, { useState } from "react";
-import { Input, Button, Container, Typography, Box } from "@mui/material";
+import { Input, Button, Container, Typography, Box, Alert } from "@mui/material";
 import { useNavigate } from "react-router";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addNewEmployee } from "../Redux/employeeSlice";
-import { useSelector } from "react-redux";
-import { Alert } from "@mui/material";
 
 export default function AddEmployeeForm() {
   const [message, setMessage] = useState("");
@@ -25,6 +23,7 @@ export default function AddEmployeeForm() {
     e.preventDefault();
     console.log(employee);
     dispatch(addNewEmployee(employee));
+    console.log(status);
     if (status === "succeeded") {
       setMessage("Employee Added Successfully, Redirecting...");
       setTimeout(() => {

@@ -31,7 +31,6 @@ export const updateEmployee = createAsyncThunk(
             employee
         );
         console.log(response);
-        return
     }
 );
 
@@ -40,7 +39,6 @@ export const deleteEmployee = createAsyncThunk(
     async (employeeId) => {
         await axios.delete(EMPLOYEE_API_BASE_URL + "/" + employeeId);
         console.log(response);
-        return
     }
 );
 
@@ -98,12 +96,8 @@ const employeeSlice = createSlice({
         })
         .addCase(updateEmployee.fulfilled, (state, action) => {
             console.log(action.payload);
-            // const index = state.employees.findIndex(
-            //     (employee) => employee.id === action.payload.id);
-            // state.employees[index] = action.payload;
             state.status = 'succeeded';
             console.log(state.employees);
-            // window.location.reload(true);
         })
         .addCase(updateEmployee.rejected, (state, action) => {
             state.status = 'failed';

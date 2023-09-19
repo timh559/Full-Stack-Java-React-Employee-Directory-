@@ -1,0 +1,70 @@
+# create the compose file to run the containers
+# use newest version
+
+version: "3.7"
+# define the services
+services:
+  # App backend service
+  app-server:
+    # build the image from the Dockerfile in the current directory
+    build:
+      # use the image from the Dockerfile in the java directory
+      context: Java Backend
+      dockerfile: Dockerfile
+    # run the container on port 5000
+    ports:
+      - 8080:8080
+    restart: always
+    depends_on:
+      - db
+    # pass environment variables to the service
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/ems?useSSL=false
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=password
+
+
+    networks:
+      - backend
+      - frontend
+    # Frontend service
+  app-client:
+    # build the image from the Dockerfile in the current directory
+    build:
+      context: React Frontend
+      dockerfile: Dockerfile
+      args:
+        - REACT_APP_API_URL=http://localhost:8080/api/v1/Employees
+    # run the container on port 3000
+    ports:
+      - 3000:80
+    restart: always
+    depends_on:
+      - app-server
+    networks:
+      - frontend
+      - backend
+    # Database service
+  db:
+    image: mysql:5.7
+    ports:
+      - 3306:3306
+    restart: always
+    environment:
+      MYSQL_DATABASE: ems
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: password
+    volumes:
+      - db-data:/var/lib/mysql
+    networks:
+      - backend
+
+  # volumes
+volumes:
+  db-data:
+
+  # networks
+networks:
+  frontend:
+  backend:
