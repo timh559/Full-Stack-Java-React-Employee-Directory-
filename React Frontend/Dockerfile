@@ -18,8 +18,20 @@ COPY . ./
 ARG REACT_APP_API_URL
 ENV REACT_APP_API_URL=$REACT_APP_API_URL
 
+# build the app
+RUN npm run build
+
+# use nginx image
+FROM nginx:1.17.1-alpine
+
+# copy the build folder from react to the nginx html folder
+COPY --from=build /app/dist var/www
+
+# copy the nginx config file
+COPY nginx.conf /etc/nginx/nginx.conf
+
 # expose port 80
 EXPOSE 80
 
-# run the application
-CMD [ "npm", "run", "dev" ]
+# run nginx
+CMD ["nginx", "-g", "daemon off;"]
