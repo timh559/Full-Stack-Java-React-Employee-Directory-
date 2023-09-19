@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { Input, Button, Container, Typography, Box, Alert } from "@mui/material";
+import { Input, Button, Container, Typography, Box } from "@mui/material";
 import { useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
-import { addNewEmployee } from "../Redux/employeeSlice";
+import { addNewEmployee, fetchEmployees } from "../Redux/employeeSlice";
+import Alert from '@mui/material/Alert';
 
 export default function AddEmployeeForm() {
   const [message, setMessage] = useState("");
@@ -26,9 +27,10 @@ export default function AddEmployeeForm() {
     console.log(status);
     if (status === "succeeded") {
       setMessage("Employee Added Successfully, Redirecting...");
+      dispatch(fetchEmployees());
       setTimeout(() => {
         navigate("/employees");
-      }, 2000);
+      }, 1000);
     }
     else if (status === "failed") {
       setMessage("Add Employee Failed");
@@ -96,7 +98,6 @@ export default function AddEmployeeForm() {
               placeholder="Enter First Name"
               variant="outlined"
               onChange={(e) => {
-                console.log(employee);
                 setEmployee({ ...employee, firstName: e.target.value });
               }}
               required
@@ -354,16 +355,16 @@ export default function AddEmployeeForm() {
           }}
         >
           <Button
-            type="submit"
+            type="button"
             variant="contained"
             color="success"
-            onSubmit={handleSubmit}
+            onClick={handleSubmit}
             sx={{ width: "40%" }}
           >
             Add Employee
           </Button>
           <Button
-            type="cancel"
+            type="button"
             variant="contained"
             color="error"
             onClick={() => {

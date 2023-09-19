@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { Input, Button, Container, Typography, Box, Alert } from "@mui/material";
-import { useNavigate, useParams } from "react-router";
+import { Input, Button, Container, Typography, Box } from "@mui/material";
+import { useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchEmployeeById, updateEmployee } from "../Redux/employeeSlice";
+import { updateEmployee } from "../Redux/employeeSlice";
+import Alert from '@mui/material/Alert';
 
 export default function UpdateEmployeeForm() {
   const status = useSelector((state) => state.employee.status);
@@ -26,7 +27,7 @@ export default function UpdateEmployeeForm() {
       setTimeout(() => {
         dispatch({ type: "employee/selectedEmployeeChanged", payload: null });
         navigate("/employees");
-      }, 2000);
+      }, 1000);
     }
     else if (status === "failed") {
       setMessage("Employee Update Failed");
@@ -94,7 +95,6 @@ export default function UpdateEmployeeForm() {
               defaultValue={selectedEmployee.firstName}
               variant="outlined"
               onChange={(e) => {
-                console.log(employee);
                 setEmployee({ ...employee, firstName: e.target.value });
               }}
               required
@@ -352,16 +352,16 @@ export default function UpdateEmployeeForm() {
           }}
         >
           <Button
-            type="submit"
+            type="button"
             variant="contained"
             color="success"
-            onSubmit={handleSubmit}
+            onClick={handleSubmit}
             sx={{ width: "40%" }}
           >
             Update Employee
           </Button>
           <Button
-            type="cancel"
+            type="button"
             variant="contained"
             color="error"
             onClick={() => {

@@ -1,9 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import EmployeeListItem from "./EmployeeListItem";
 import { Virtuoso } from "react-virtuoso";
 import { useSelector } from "react-redux";
 import { Input } from "@mui/material";
-import { useState } from "react";
 
 export default function EmployeeList({ employeeList }) {
   const [employees, setEmployees] = useState(employeeList);

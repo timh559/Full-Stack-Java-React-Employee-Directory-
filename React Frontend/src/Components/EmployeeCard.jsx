@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
@@ -124,7 +124,7 @@ export default function EmployeeCard() {
             <Button
                 color="inherit"
                 onClick={() => {
-                    navigate("/edit-employee/" + employee.id);
+                  navigate("/edit-employee/" + employee.id);
                 }}
                 sx={{
                   float: "left",
